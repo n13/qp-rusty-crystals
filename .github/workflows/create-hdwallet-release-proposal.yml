@@ -210,6 +210,11 @@ jobs:
           git commit -m "ci: Automate hdwallet version bump to $NEW_VERSION"
           git push origin "$branch_name"
 
+          # Create required labels if they don't exist
+          gh label create automated --description "Automated processes" --color "0E8A16" || true
+          gh label create hdwallet-release-proposal --description "Proposals for HDWallet releases" --color "1D76DB" || true
+          gh label create draft-release --description "Draft or test releases" --color "BFD4F2" || true
+
           PR_TITLE="ci: Automate hdwallet version bump to $NEW_VERSION"
 
           # Prepare labels
