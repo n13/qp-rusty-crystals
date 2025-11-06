@@ -161,6 +161,17 @@ jobs:
 
           # Create new branch from source branch
           git checkout "$SOURCE_BRANCH"
+          
+          # Delete branch if it exists locally
+          if git show-ref --verify --quiet refs/heads/"$branch_name"; then
+            git branch -D "$branch_name"
+          fi
+          
+          # Delete branch if it exists remotely
+          if git ls-remote --heads origin "$branch_name" | grep -q "$branch_name"; then
+            git push origin --delete "$branch_name" || true
+          fi
+          
           git checkout -b "$branch_name"
           
           # Update hdwallet version
